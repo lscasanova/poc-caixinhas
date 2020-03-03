@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { SortablePane, Pane } from 'react-sortable-pane';
 import { textStyle, paneStyle } from './styles';
+import { SteppedLineTo } from 'react-lineto';
+
 
 
 export default class ControllableOrder extends React.Component {
@@ -20,6 +22,7 @@ export default class ControllableOrder extends React.Component {
       0,
       <Pane
         key={this.id}
+        className={{ pos }}
         defaultSize={{ width: 150, height: 120 }}
         resizable={{ x: false, y: false, xy: false }}
         style={paneStyle}>
@@ -49,6 +52,7 @@ export default class ControllableOrder extends React.Component {
         >
           {this.state.list}
         </SortablePane>
+        <SteppedLineTo from="A" to="B" orientation="v" />
       </div>
     );
   }
