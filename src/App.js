@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SortablePane, Pane } from 'react-sortable-pane';
-import { textStyle, paneStyle } from './styles';
+import { textStyle, defaultStyle, routeStyle, fenceStyle } from './styles';
 import { SteppedLineTo } from 'react-lineto';
 
 
@@ -13,21 +13,66 @@ export default class ControllableOrder extends React.Component {
     data: {},
   };
 
-  add() {
+  constructor(props) {
+    super(props);
+    const pos = (this.state.list.length);
+    this.state = {
+      order: ['hogeInicio', 'hogeFim'],
+      list: ["Inicio", "Fim"].map(id => (
+        // <div>
+        <Pane
+          key={`hoge${id}`}
+          defaultSize={{ width: 90, height: 90 }}
+          className={ pos }
+          style={defaultStyle}>
+            <p style={textStyle}>{id}</p>
+        </Pane>
+        // <SteppedLineTo from={pos - 1} to={pos} orientation="v" />
+        // </div>
+      )),
+    };
+  }
+
+  add_route() {
     const pos = (this.state.list.length-1);
     const order = [...this.state.order];
     order.splice(pos, 0, String(this.id));
     this.state.list.splice(
       pos,
       0,
+      // <div>
       <Pane
         key={this.id}
-        className={{ pos }}
-        defaultSize={{ width: 150, height: 120 }}
+        className={ pos }
+        defaultSize={{ width: 200, height: 120 }}
         resizable={{ x: false, y: false, xy: false }}
-        style={paneStyle}>
+        style={routeStyle}>
           <p style={textStyle}>00{this.id++}</p>
-      </Pane>,
+      </Pane>
+      // <SteppedLineTo from={pos - 1} to={pos} orientation="v" />
+      // </div>,
+    );
+    this.setState({ list: this.state.list, order });
+  }
+
+  add_fence() {
+    const pos = (this.state.list.length-1);
+    const order = [...this.state.order];
+    order.splice(pos, 0, String(this.id));
+    this.state.list.splice(
+      pos,
+      0,
+      // <div>
+      <Pane
+        key={this.id}
+        className={ pos }
+        defaultSize={{ width: 150, height: 150 }}
+        resizable={{ x: false, y: false, xy: false }}
+        style={fenceStyle}>
+          <p style={textStyle}>00{this.id++}</p>
+      </Pane>
+      // <SteppedLineTo from={pos - 1} to={pos} orientation="v" />
+      // </div>,
     );
     this.setState({ list: this.state.list, order });
   }
@@ -42,7 +87,8 @@ export default class ControllableOrder extends React.Component {
   render() {
     return (
       <div style={{ padding: '10px' }}>
-        <button type="button" onClick={() => this.add()}>Add</button>
+        <button type="button" onClick={() => this.add_route()}>Add Trecho</button>
+        <button type="button" onClick={() => this.add_fence()}>Add Cerca</button>
         <button type="button" onClick={() => this.remove()}>Remove</button>
         <SortablePane
           direction="horizontal"
@@ -52,7 +98,6 @@ export default class ControllableOrder extends React.Component {
         >
           {this.state.list}
         </SortablePane>
-        <SteppedLineTo from="A" to="B" orientation="v" />
       </div>
     );
   }
