@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { SortablePane, Pane } from 'react-sortable-pane';
-import { textStyle, defaultStyle, routeStyle, fenceStyle } from './styles';
-import { SteppedLineTo } from 'react-lineto';
-
-
+import { textStyle, orderStyle, defaultStyle, routeStyle, fenceStyle } from './styles';
+// import { SteppedLineTo } from 'react-lineto';
 
 export default class ControllableOrder extends React.Component {
   id = 0;
@@ -15,66 +13,26 @@ export default class ControllableOrder extends React.Component {
 
   constructor(props) {
     super(props);
-    const pos = (this.state.list.length);
     this.state = {
-      order: ['hogeInicio', 'hogeFim'],
-      list: ["Inicio", "Fim"].map(id => (
-        // <div>
-        <Pane
-          key={`hoge${id}`}
-          defaultSize={{ width: 90, height: 90 }}
-          className={ pos }
-          style={defaultStyle}>
-            <p style={textStyle}>{id}</p>
-        </Pane>
-        // <SteppedLineTo from={pos - 1} to={pos} orientation="v" />
-        // </div>
-      )),
+      order: [],
+      list: []
     };
   }
 
   add_route() {
-    const pos = (this.state.list.length-1);
-    const order = [...this.state.order];
-    order.splice(pos, 0, String(this.id));
-    this.state.list.splice(
-      pos,
-      0,
-      // <div>
-      <Pane
-        key={this.id}
-        className={ pos }
-        defaultSize={{ width: 200, height: 120 }}
-        resizable={{ x: false, y: false, xy: false }}
-        style={routeStyle}>
-          <p style={textStyle}>00{this.id++}</p>
-      </Pane>
-      // <SteppedLineTo from={pos - 1} to={pos} orientation="v" />
-      // </div>,
-    );
-    this.setState({ list: this.state.list, order });
+    const name = 'Trecho' + this.state.list.length
+    this.setState({
+      order: [...this.state.order, name],
+      list: [...this.state.list, { name, type: 'route' }]
+    });
   }
 
   add_fence() {
-    const pos = (this.state.list.length-1);
-    const order = [...this.state.order];
-    order.splice(pos, 0, String(this.id));
-    this.state.list.splice(
-      pos,
-      0,
-      // <div>
-      <Pane
-        key={this.id}
-        className={ pos }
-        defaultSize={{ width: 150, height: 150 }}
-        resizable={{ x: false, y: false, xy: false }}
-        style={fenceStyle}>
-          <p style={textStyle}>00{this.id++}</p>
-      </Pane>
-      // <SteppedLineTo from={pos - 1} to={pos} orientation="v" />
-      // </div>,
-    );
-    this.setState({ list: this.state.list, order });
+    const name = 'Cerca' + this.state.list.length
+    this.setState({
+      order: [...this.state.order, name],
+      list: [...this.state.list, { name, type: 'fence' }]
+    });
   }
 
   remove() {
@@ -93,10 +51,34 @@ export default class ControllableOrder extends React.Component {
         <SortablePane
           direction="horizontal"
           margin={20}
-          order={this.state.order}
           onOrderChange={order => this.setState({ order })}
         >
-          {this.state.list}
+          {[
+            <Pane
+              key='start'
+              defaultSize={{ width: 90, height: 90 }}
+              resizable={{ x: false, y: false, xy: false }}
+              style={defaultStyle}>
+                <p style={textStyle}>Início</p>
+            </Pane>,
+            ...this.state.list.map(el =>
+              <Pane
+                key={el.name}
+                defaultSize={{ width: 200, height: 120 }}
+                resizable={{ x: false, y: false, xy: false }}
+                style={el.type === 'fence' ? fenceStyle : routeStyle}>
+                  <p style={textStyle}>{el.name}</p>
+                  {this.state.order.indexOf(el.name)}
+              </Pane>
+            ),
+            <Pane
+              key='end'
+              defaultSize={{ width: 90, height: 90 }}
+              resizable={{ x: false, y: false, xy: false }}
+              style={defaultStyle}>
+                <p style={textStyle}>Fim</p>
+            </Pane>
+          ]}
         </SortablePane>
       </div>
     );

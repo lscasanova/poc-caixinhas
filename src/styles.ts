@@ -27,3 +27,12 @@ export const fenceStyle = {
     fontWeight: 'bold' as 'bold',
     color: '#aaa',
   };
+
+  export const orderStyle = {
+    position:'absolute',
+    fontSize: '12px',
+    fontWeight: 'bold' as 'bold',
+    color: '#aaa',
+    bottom: 0,
+    right: 0,
+  };
