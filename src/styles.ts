@@ -32,7 +32,8 @@ export const fenceStyle = {
     position:'absolute',
     fontSize: '12px',
     fontWeight: 'bold' as 'bold',
-    color: '#aaa',
+    color: '#000',
     bottom: 0,
     right: 0,
+    marginRight: '12px',
   };

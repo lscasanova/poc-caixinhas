@@ -22,7 +22,7 @@ export default class ControllableOrder extends React.Component {
   add_route() {
     const name = 'Trecho' + this.state.list.length
     this.setState({
-      order: [...this.state.order, name],
+      order: ['start', ...this.state.order.slice(1, this.state.order.length - 1), name, 'end'],
       list: [...this.state.list, { name, type: 'route' }]
     });
   }
@@ -30,7 +30,7 @@ export default class ControllableOrder extends React.Component {
   add_fence() {
     const name = 'Cerca' + this.state.list.length
     this.setState({
-      order: [...this.state.order, name],
+      order: ['start', ...this.state.order.slice(1, this.state.order.length - 1), name, 'end'],
       list: [...this.state.list, { name, type: 'fence' }]
     });
   }
@@ -68,7 +68,7 @@ export default class ControllableOrder extends React.Component {
                 resizable={{ x: false, y: false, xy: false }}
                 style={el.type === 'fence' ? fenceStyle : routeStyle}>
                   <p style={textStyle}>{el.name}</p>
-                  {this.state.order.indexOf(el.name)}
+                  <p style={orderStyle}>{this.state.order.indexOf(el.name)}</p>
               </Pane>
             ),
             <Pane
