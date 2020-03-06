@@ -3,7 +3,8 @@ export const defaultStyle = {
     alignItems: 'center',
     justifyContent: 'center',
     border: 'solid 1px #ddd',
-    backgroundColor: '#f0f0f0'
+    backgroundColor: '#f0f0f0',
+    zIndex:'1'
   };
 
 export const routeStyle = {
@@ -11,7 +12,8 @@ export const routeStyle = {
     alignItems: 'center',
     justifyContent: 'center',
     border: 'solid 1px #ddd',
-    backgroundColor: '#808000'
+    backgroundColor: '#808000',
+    zIndex:'1'
   };
 
 export const fenceStyle = {
@@ -19,7 +21,8 @@ export const fenceStyle = {
     alignItems: 'center',
     justifyContent: 'center',
     border: 'solid 1px #ddd',
-    backgroundColor: '#ff4500'
+    backgroundColor: '#ff4500',
+    zIndex:'1'
   };
 
   export const textStyle = {
